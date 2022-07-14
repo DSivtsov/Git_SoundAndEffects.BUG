@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0387ee27d2048ca4f8ab962f005d756b, type: 3}
+  m_Name: JukeBox
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: b7307f7710b35c74892567caa5644c25, type: 3}
+  - {fileID: 8300000, guid: cabffe14d8ef13d4aa99b744406a2c1f, type: 3}
+  - {fileID: 8300000, guid: d2d512caff17614408f8bc23ce7ae786, type: 3}
+  LoadDelayTime: 2
+  CrossDeltaTime: 0.25
+  StartDelay: 1
+  PlayMode: 0
+  TimeFromBegin: 0
+  TimeFromEnd: 0

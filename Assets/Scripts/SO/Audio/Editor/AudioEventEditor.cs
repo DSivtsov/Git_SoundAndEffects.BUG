@@ -9,13 +9,20 @@ public class AudioEventEditor : Editor
     AudioSource _previewAudioSource;
     GameObject _tempCreated;
 
-    private void OnDisable()
+	private void OnDisable()
     {
         //To exclude the attemp to delete the temp GameObject in the process of stop the Play mode
         if (_tempCreated)
         {
-            //Debug.Log($"DestroyImmediate {_tempCreated.activeInHierarchy}");
-            DestroyImmediate(_tempCreated); 
+            //Debug.Log($"DestroyImmediate {_tempCreated.name} {_tempCreated.activeInHierarchy}");
+            if (_previewAudioSource)
+            {
+                _previewAudioSource.Stop();
+                _previewAudioSource = null;
+                //Debug.Log($"OnDisable() _previewAudioSource was != null");
+            }
+            DestroyImmediate(_tempCreated);
+
         }
     }
 

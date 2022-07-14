@@ -7,43 +7,47 @@ using UnityEditor;
 public class AudioEventEditor : Editor
 {
     AudioSource _previewAudioSource;
-    GameObject _tempCreated;
+    GameObject _tempGameObject;
+    bool initButton;
 
-	private void OnDisable()
+    private void OnDisable()
     {
         //To exclude the attemp to delete the temp GameObject in the process of stop the Play mode
-        if (_tempCreated)
+        if (_tempGameObject)
         {
-            //Debug.Log($"DestroyImmediate {_tempCreated.name} {_tempCreated.activeInHierarchy}");
+            //Debug.Log($"DestroyImmediate {_tempGameObject.name} {_tempGameObject.activeInHierarchy}");
             if (_previewAudioSource)
             {
                 _previewAudioSource.Stop();
                 _previewAudioSource = null;
                 //Debug.Log($"OnDisable() _previewAudioSource was != null");
             }
-            DestroyImmediate(_tempCreated);
+            DestroyImmediate(_tempGameObject);
 
         }
     }
 
     private void OnEnable()
     {
-        //To exclude the possibility to create the temp GameObject in the process of run the Play mode
-        if (!EditorApplication.isPlayingOrWillChangePlaymode && !_tempCreated)
-        {
-            _tempCreated = EditorUtility.CreateGameObjectWithHideFlags("Preview"+ target.name, HideFlags.HideInHierarchy, typeof(AudioSource));
-            _previewAudioSource = _tempCreated.GetComponent<AudioSource>();
-            //Debug.Log($"{target.name} {_previewAudioSource!=null}");
-        }
+        initButton = true;
+    }
+
+    private void CreateTempAudioSource()
+    {
+		_tempGameObject = EditorUtility.CreateGameObjectWithHideFlags("Preview" + target.name, HideFlags.HideInHierarchy, typeof(AudioSource));
+		_previewAudioSource = _tempGameObject.GetComponent<AudioSource>();
+		//Debug.Log($"{target.name} {_previewAudioSource!=null}");
     }
 
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
         EditorGUILayout.Space();
-        EditorGUI.BeginDisabledGroup(!_previewAudioSource);
+		//To exclude the possibility to create the temp GameObject in the process of run the Play mode
+        EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
         if (GUILayout.Button("Test Audio Event"))
         {
+            if (!_tempGameObject) CreateTempAudioSource();
             ((AudioEvent)target).PlayClipNext(_previewAudioSource);
         }
         EditorGUI.EndDisabledGroup();
